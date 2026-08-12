@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Retail Group — Tomiwa Fakola</title>
+<meta name="description" content="SQL capstone case study: diagnosing inflation-driven margin erosion at a consumer electronics retailer using PostgreSQL.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="mark" href="../index.html">tomiwa<span>.</span>analytics</a>
+  <a class="back" href="../index.html">← all projects</a>
+</nav>
+
+<header class="hero wrap">
+  <span class="tag">retail analytics · sql capstone</span>
+  <h1>Nexus Retail Group</h1>
+  <p class="lede">Fixing inflation-driven margin erosion through data-aligned inventory and promotion strategy.</p>
+  <div class="meta">
+    <span><strong>Role</strong> Supply Chain Consultant</span>
+    <span><strong>Tools</strong> PostgreSQL</span>
+    <span><strong>Program</strong> 10Alytics — Pod Astra</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="section">
+    <span class="tag">business overview</span>
+    <h2>A supply chain built to react to macroeconomic swings</h2>
+    <p>Nexus Retail Group is a consumer-electronics retailer founded in 2018 in Ontario, Canada, selling smartphones, laptops and general electronics to tech-savvy urban consumers and corporate buyers. It operates direct-to-consumer, omni-channel, across North America with 250+ employees — a market challenger positioning itself against players like Slot Nigeria and Jumia.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">2018</div><div class="lbl">FOUNDED · ONTARIO, CANADA</div></div>
+      <div class="stat"><div class="num">250+</div><div class="lbl">EMPLOYEES · NORTH AMERICA</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">PRODUCT CATEGORIES</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">the business problem</span>
+    <h2>Volatile sales and eroding margins during high inflation</h2>
+    <p class="muted">Left unaddressed, this leads to costly overstocking of premium tech items and missed revenue during downturns — hitting supply chain operations, warehousing cost, and overall profitability.</p>
+    <div class="problems">
+      <div class="problem">
+        <span class="n">01</span>
+        <h4>Macroeconomic volatility</h4>
+        <p>Unstable inflation peaks and unpredictable regional GDP growth.</p>
+      </div>
+      <div class="problem">
+        <span class="n">02</span>
+        <h4>Promotional misalignment</h4>
+        <p>Marketing spend disconnected from seasonal demand patterns.</p>
+      </div>
+      <div class="problem">
+        <span class="n">03</span>
+        <h4>Inventory stagnation</h4>
+        <p>Rigid safety-stock limits locking up capital in slow-moving stock.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">methodology</span>
+    <h2>From three raw tables to four decision-ready answers</h2>
+    <p class="muted">Three tables — <code>sales</code>, <code>product</code>, <code>factors</code> — 1,500 rows each, joined on <code>productid</code> and <code>salesdate</code>. Retrieve historical transactions, inventory and macro data → join and filter → aggregate by category, month and economic band → interpret against inflation, GDP and seasonal splits.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">sales</div><div class="lbl">salesid · productid · salesdate · inventoryqty · productcost</div></div>
+      <div class="stat"><div class="num">product</div><div class="lbl">productid · productcategory · promotions</div></div>
+      <div class="stat"><div class="num">factors</div><div class="lbl">salesdate · gdp · inflationrate · seasonalfactor</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">analysis 1 of 4 · inflation &amp; gdp impact</span>
+    <div class="insight-block">
+      <h3>Electronics keeps selling as inflation climbs — everything else slows</h3>
+      <p class="muted">Sales transactions per category, split by inflation band (Low &lt;2.33% · Medium · High &gt;3.66%)</p>
+      <img src="../assets/images/nexus-chart-inflation.jpg" alt="Bar chart: sales transactions per product category across low, medium and high inflation bands">
+      <div class="callout">
+        <div class="lbl">Insight</div>
+        <p>Electronics sales volume rises 22% from low- to high-inflation periods, while Home_Appliances falls 13% and Laptops falls 7%. Inflation isn't shrinking demand uniformly — it's reshuffling it toward Electronics and away from big-ticket appliances.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">analysis 2 of 4 · promo &amp; demand alignment</span>
+    <div class="insight-block">
+      <h3>Promotions aren't moving the needle — and often fire in the off-season</h3>
+      <p class="muted">Average sales transactions per product: promoted (Yes) vs. non-promoted (No), by category</p>
+      <img src="../assets/images/nexus-chart-promo.jpg" alt="Bar chart comparing average sales per product for promoted versus non-promoted items by category">
+      <div class="callout">
+        <div class="lbl">Insight</div>
+        <p>Promoted vs. non-promoted sales per product barely differ (~1.15–1.27 either way) — Electronics even sells better unpromoted. Meanwhile 764 promoted transactions land during below-average-demand windows (seasonalfactor &lt; 1.0), pointing to ad spend firing at the wrong time rather than the wrong volume.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">analysis 3 of 4 · inventory &amp; overstock</span>
+    <div class="insight-block">
+      <h3>Deadstock peaks every October — and Electronics owns the warehouse</h3>
+      <p class="muted">Total leftover inventory units by calendar month (all years combined)</p>
+      <img src="../assets/images/nexus-chart-inventory.jpg" alt="Bar chart of leftover inventory units by calendar month, peaking in October">
+      <div class="callout">
+        <div class="lbl">Insight</div>
+        <p>October carries 42% more leftover stock than the April trough — with August and January close behind. Electronics also holds the single largest warehouse footprint of any category at 23,754 total leftover units, ahead of SmartPhones, Home_Appliances and Laptops.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">analysis 4 of 4 · profit margin &amp; cost</span>
+    <div class="insight-block">
+      <h3>Electronics ties up the most cash in unsold stock — $2.56M and rising</h3>
+      <p class="muted">Total deadstock value ($): leftover units × unit cost, by category</p>
+      <img src="../assets/images/nexus-chart-margin.jpg" alt="Bar chart of total deadstock value in dollars by product category">
+      <div class="callout">
+        <div class="lbl">Insight</div>
+        <p>Electronics combines the highest unit cost (~$106) with the highest leftover volume, so it drains the most working capital of any category — the same category that's also gaining sales share under inflation. Growth and cash lock-up are happening in the same place.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">final recommendation</span>
+    <h2>Four moves to protect margin through the next inflation cycle</h2>
+    <div class="reco">
+      <div class="reco-item">
+        <div class="idx">1</div>
+        <div><h4>Rebalance safety stock by category</h4><p>Loosen buffer limits for Electronics (rising demand under inflation); tighten for Home_Appliances &amp; Laptops (demand falls as inflation rises).</p></div>
+      </div>
+      <div class="reco-item">
+        <div class="idx">2</div>
+        <div><h4>Re-time promotions to seasonal factor</h4><p>Shift ad spend away from below-average-demand windows — roughly a third of promoted sales are currently landing there for no measurable lift.</p></div>
+      </div>
+      <div class="reco-item">
+        <div class="idx">3</div>
+        <div><h4>Pre-empt the Oct/Aug/Jan deadstock peaks</h4><p>Trigger clearance pricing and reduced reorder points 4–6 weeks ahead of these recurring high-inventory months.</p></div>
+      </div>
+      <div class="reco-item">
+        <div class="idx">4</div>
+        <div><h4>Stop promoting self-sustaining categories</h4><p>SmartPhones and Electronics already lead in non-promoted sales — reallocate that budget toward inventory drawdown instead.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="tag">sql</span>
+    <h2>Query script</h2>
+    <p class="muted">Full commented PostgreSQL script covering all four analysis groups — inflation/GDP banding, promo ROI, seasonal timing, slow-moving stock, deadstock value.</p>
+    <pre><span class="cm">-- 1.1 PRODUCT PERFORMANCE: sales volume by inflation band</span>
+SELECT
+    p.productcategory,
+    COUNT(*) FILTER (WHERE f.inflationrate &lt; 2.33)                AS low_inflation_sales,
+    COUNT(*) FILTER (WHERE f.inflationrate BETWEEN 2.33 AND 3.66)  AS medium_inflation_sales,
+    COUNT(*) FILTER (WHERE f.inflationrate &gt; 3.66)                AS high_inflation_sales
+FROM sales s
+JOIN product p ON p.productid = s.productid
+JOIN factors f ON f.salesdate = s.salesdate
+GROUP BY p.productcategory
+ORDER BY pct_change_low_to_high_inflation ASC;</pre>
+    <div class="downloads">
+      <a class="btn primary" href="../assets/files/nexus_capstone_queries.sql" download>Download full .sql script</a>
+      <a class="btn" href="../assets/files/Nexus_Retail_Group_Capstone.pptx" download>Download presentation (.pptx)</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Built by Tomiwa Fakola · <a href="../index.html">Back to portfolio</a></p>
+</footer>
+
+</body>
+</html>
